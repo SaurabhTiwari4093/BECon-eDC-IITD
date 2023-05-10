@@ -1,6 +1,6 @@
 // Base URL
 // const base_url_4 = 'http://localhost:3000/'
-const base_url_4 = 'https://becon-edc-iitd.azurewebsites.net/';
+const base_url_4 = 'https://becon.edciitd.com/';
 
 const getEventList = async (day) => {
     const requestOptions = {

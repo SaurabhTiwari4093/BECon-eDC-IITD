@@ -1,6 +1,6 @@
 // Base URL
 // const base_url = 'http://localhost:3000/'
-const base_url = 'https://becon-edc-iitd.azurewebsites.net/';
+const base_url = 'https://becon.edciitd.com/';
 
 // Register form
 const registerForm = document.getElementById('registerForm');
