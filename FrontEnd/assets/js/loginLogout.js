@@ -1,6 +1,6 @@
 // Base URL
 // const base_url_2 = 'http://localhost:3000/'
-const base_url_2 = 'https://becon.edciitd.com/';
+const base_url_2 = 'https://becon-edc-iitd-backend.vercel.app/';
 
 // login logout show hide
 const loginLogoutShowHide = () => {

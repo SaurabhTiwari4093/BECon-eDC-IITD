@@ -1,5 +1,5 @@
 {
-  "name": "cap-edc-iitd",
+  "name": "becon-edc-iitd",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SaurabhTiwari4093/heroku-nodejs.git"
+    "url": "git+https://github.com/SaurabhTiwari4093/BECon-eDC-IITD.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/SaurabhTiwari4093/heroku-nodejs/issues"
+    "url": "https://github.com/SaurabhTiwari4093/BECon-eDC-IITD/issues"
   },
-  "homepage": "https://github.com/SaurabhTiwari4093/heroku-nodejs#readme",
+  "homepage": "https://github.com/SaurabhTiwari4093/BECon-eDC-IITD#readme",
   "dependencies": {
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",

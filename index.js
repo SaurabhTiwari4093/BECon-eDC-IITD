@@ -14,6 +14,9 @@ db.once('open', () => console.log('Connected to Database'))
 app.use(cors())
 app.use(express.json())
 
+app.get('/',(req,res)=>{
+    res.send('Becon edc backend')
+})
 // app.use(express.static("client"));
 
 const registrationRouter = require('./routes/registration')

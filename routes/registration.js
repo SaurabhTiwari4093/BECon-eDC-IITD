@@ -1,125 +1,127 @@
-const express = require('express')
-const router = express.Router()
-const Registration = require("../models/registration")
+const express = require("express");
+const router = express.Router();
+const Registration = require("../models/registration");
 
 //Password
-const generator = require('generate-password');
-const bcrypt = require('bcrypt');
+const generator = require("generate-password");
+const bcrypt = require("bcrypt");
 
 // Confirmation mail
-const nodemailer = require('nodemailer');
-const smtpTransport = require('nodemailer-smtp-transport');
+const nodemailer = require("nodemailer");
+const smtpTransport = require("nodemailer-smtp-transport");
 
-const transporter = nodemailer.createTransport(smtpTransport({
-    host: 'email-smtp.ap-south-1.amazonaws.com',
-    port:465,
+// const transporter = nodemailer.createTransport(smtpTransport({
+//     host: 'email-smtp.ap-south-1.amazonaws.com',
+//     port:465,
+//     auth: {
+//         user: 'AKIAZJ2NPFB7G5TKIDNR',
+//         pass: 'BJcAh3Yfhc06dt1k18tNTIAYbWraXxnD9OYzjmEeAqYE'
+//     }
+// }));
+var transporter = nodemailer.createTransport(
+  smtpTransport({
+    service: "gmail",
+    host: "smtp.gmail.com",
     auth: {
-        user: 'AKIAZJ2NPFB7G5TKIDNR',
-        pass: 'BJcAh3Yfhc06dt1k18tNTIAYbWraXxnD9OYzjmEeAqYE'
-    }
-}));
+      user: "saurabhtiwari4093@gmail.com",
+      pass: "chihquflhkntihcm",
+    },
+  })
+);
 
 //Get
-router.get('/', async (req, res) => {
-    try {
-        const registrations = await Registration.find()
-        res.status(200).json(
-            {
-                status: 200,
-                length: registrations.length,
-                registration: registrations
-            }
-        )
-    }
-    catch (err) {
-        res.status(500).json({
-            status: 500,
-            message: err.message
-        })
-    }
-})
+router.get("/", async (req, res) => {
+  try {
+    const registrations = await Registration.find();
+    res.status(200).json({
+      status: 200,
+      length: registrations.length,
+      registration: registrations,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: 500,
+      message: err.message,
+    });
+  }
+});
 
 // Get total no of registration
-router.get('/length', async (req, res) => {
-    try {
-        const registrations = await Registration.find()
-        res.status(200).json(
-            {
-                status: 200,
-                length: registrations.length,
-            }
-        )
-    }
-    catch (err) {
-        res.status(500).json({
-            status: 500,
-            message: err.message
-        })
-    }
-})
+router.get("/length", async (req, res) => {
+  try {
+    const registrations = await Registration.find();
+    res.status(200).json({
+      status: 200,
+      length: registrations.length,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: 500,
+      message: err.message,
+    });
+  }
+});
 
 //Get
-router.get('/studentDetails/:studentEmail', async (req, res) => {
-    try {
-        const studentEmailToSearch = req.params.studentEmail;
-        const registration = await Registration.findOne({ email: studentEmailToSearch });
-        res.status(200).json(
-            {
-                status: 200,
-                studentDetails: registration
-            }
-        )
-    }
-    catch (err) {
-        res.status(500).json({
-            status: 500,
-            message: err.message
-        })
-    }
-})
+router.get("/studentDetails/:studentEmail", async (req, res) => {
+  try {
+    const studentEmailToSearch = req.params.studentEmail;
+    const registration = await Registration.findOne({
+      email: studentEmailToSearch,
+    });
+    res.status(200).json({
+      status: 200,
+      studentDetails: registration,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: 500,
+      message: err.message,
+    });
+  }
+});
 
 //POST
-router.post('/', async (req, res) => {
-    try {
-        const checkUserAlreadyExist = await Registration.findOne({ email: req.body.email })
-        if (checkUserAlreadyExist !== null) {
-            res.status(400).json({
-                status: 400,
-                message: "Account already exist"
-            })
-        }
-        else {
-            const password = generator.generate({
-                length: 6,
-                numbers: true,
-            });
+router.post("/", async (req, res) => {
+  try {
+    const checkUserAlreadyExist = await Registration.findOne({
+      email: req.body.email,
+    });
+    if (checkUserAlreadyExist !== null) {
+      res.status(400).json({
+        status: 400,
+        message: "Account already exist",
+      });
+    } else {
+      const password = generator.generate({
+        length: 6,
+        numbers: true,
+      });
 
-            const hashPassword = bcrypt.hashSync(password, 12)
+      const hashPassword = bcrypt.hashSync(password, 12);
 
-            const registration = new Registration({
-                name: req.body.name,
-                email: req.body.email,
-                password: hashPassword,
-                mobile: req.body.mobile,
-                institute: req.body.institute,
-                city: req.body.city,
-                state: req.body.state,
-                howKnowAboutUs: req.body.howKnowAboutUs,
-                referCode: req.body.referCode
-            })
+      const registration = new Registration({
+        name: req.body.name,
+        email: req.body.email,
+        password: hashPassword,
+        mobile: req.body.mobile,
+        institute: req.body.institute,
+        city: req.body.city,
+        state: req.body.state,
+        howKnowAboutUs: req.body.howKnowAboutUs,
+        referCode: req.body.referCode,
+      });
 
-            const newRegistration = await registration.save()
-            res.status(201).json(
-                {
-                    registration: newRegistration,
-                    status: 201
-                }
-            )
-            var mailOptions = {
-                from: "becon2023.edciitd@gmail.com",
-                to: newRegistration.email,
-                subject: "Registration Successful for BECON'23 | eDC IITD",
-                html: `
+      const newRegistration = await registration.save();
+      res.status(201).json({
+        registration: newRegistration,
+        status: 201,
+      });
+      var mailOptions = {
+        from: "saurabhtiwari4093@gmail.com",
+        to: newRegistration.email,
+        subject: "Registration Successful for BECON'23 | eDC IITD",
+        html: `
                     Dear ${newRegistration.name},<br>
                     <p>Thanks for registering for BECON'23  which is going to be held from January 6th to January 8th, 2023.</p>
         
@@ -140,24 +142,27 @@ router.post('/', async (req, res) => {
                     <p>Regards,<br>
                     eDC Tech Team,<br>
                     BECON'23<p>
-               `
-            };
-            transporter.sendMail(mailOptions, function (error, info) {
-                if (error) {
-                    console.log(error);
-                } else {
-                    console.log('Email sent: ' + info.response);
-                }
-            });
-
-        }
+               `,
+      };
+      await new Promise((resolve, reject) => {
+        // send mail
+        transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+            console.log(error);
+            reject(err);
+          } else {
+            console.log("Email sent: " + info.response);
+            resolve(info.response);
+          }
+        });
+      });
     }
-    catch (err) {
-        res.status(400).json({
-            status: 400,
-            message: err.message
-        })
-    }
-})
+  } catch (err) {
+    res.status(400).json({
+      status: 400,
+      message: err.message,
+    });
+  }
+});
 
-module.exports = router
+module.exports = router;
