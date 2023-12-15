@@ -1,6 +1,6 @@
 // Base URL
 // const base_url_4 = 'http://localhost:3000/'
-const base_url_4 = 'https://becon-edc-iitd-backend.vercel.app/';
+const base_url_4 = 'https://becon-edc-iitd.onrender.com/';
 
 const getEventList = async (day) => {
     const requestOptions = {

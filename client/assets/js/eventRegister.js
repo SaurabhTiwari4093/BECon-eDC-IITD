@@ -1,6 +1,6 @@
 // Base URL
 // const base_url_3 = 'http://localhost:3000/'
-const base_url_3 = 'https://becon-edc-iitd-backend.vercel.app/';
+const base_url_3 = 'https://becon-edc-iitd.onrender.com/';
 
 var eventName;
 var registerLink = 'No';
