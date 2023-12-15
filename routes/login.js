@@ -117,17 +117,12 @@ router.put("/forgotPassword", async (req, res) => {
                         BECON'23<p>
                    `,
           };
-          await new Promise((resolve, reject) => {
-            // send mail
-            transporter.sendMail(mailOptions, function (error, info) {
-              if (error) {
-                console.log(error);
-                reject(err);
-              } else {
-                console.log("Email sent: " + info.response);
-                resolve(info.response);
-              }
-            });
+          transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log("Email sent: " + info.response);
+            }
           });
         }
       }
