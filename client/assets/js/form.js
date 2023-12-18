@@ -1,6 +1,6 @@
 // Base URL
 // const base_url = 'http://localhost:3000/'
-const base_url = 'https://becon-edc-iitd.onrender.com/';
+const base_url = 'https://becon-edc-iitd.saurabh-tiwari.tech/';
 
 // Register form
 const registerForm = document.getElementById('registerForm');
